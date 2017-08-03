@@ -1,42 +1,48 @@
 package task3_wordCounter;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 
 public class WordCounter {
 
     public static void main(String[] args) {
-        String fileName = "hamlet.txt";
-        if (args.length > 0) fileName = args[0];
         try {
             CountTable table = new CountTable();
-            // CountTable2 table = new CountTable2();
-            BufferedReader in = new BufferedReader(new FileReader(fileName));
-            while (true) {
-                String line = in.readLine();
-                if (line == null) {
-                    break;
-                }
-                line = line.toUpperCase();
-                line = line.replaceAll("[^A-Z]", " ");
-                for (String s : line.split("\\s+")) {
-                    if (! s.equals("")) {
-                        table.add(s);
+            InputStreamReader is = new InputStreamReader(System.in);
+            BufferedReader br = new BufferedReader(is);
+            System.out.println("検索したい文字列を入力してください:.");
+            String line = br.readLine();
+            if(checkStr(line)){
+                System.out.println("■出力結果: "+ line + "の出力頻度順は以下の通りです.");
+                    line = line.toLowerCase();
+                    line = line.replaceAll("[^a-z]", " ");
+                    for (String s : line.split("\\s+")) {
+                        if (! s.equals("")) {
+                            table.add(s);
+                        }
                     }
+                for (String s : table.getKeysByCount()) {
+                     int count = table.get(s);
+                     System.out.println(count + ":" + s);
                 }
             }
-            in.close();
-            for (String s : table.getKeysByCount()) {
-                int count = table.get(s);
-                System.out.println(count + "\t" + s);
-            }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
+    //全角文字入力チェック（true:半角英数字のみ false:全角文字が入力されている）
+    public static boolean checkStr(String str) {
+        char[] sc = str.toCharArray();
+        for ( int i=0; i<sc.length ; i++ ) {
+            if (String.valueOf(sc[i]).getBytes().length >= 2 ) {
+                System.out.println("全角文字が入力されています. 入力は半角英数字のみとしてください.");
+                return false;
+            }
+        }
+        return true;
+    }
+
 
 }
