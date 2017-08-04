@@ -11,7 +11,7 @@ public class WordCounter {
             CountTable table = new CountTable();
             InputStreamReader is = new InputStreamReader(System.in);
             BufferedReader br = new BufferedReader(is);
-            System.out.println("検索したい文字列を入力してください:.");
+            System.out.println("検索したい英文を入力してください:");
             String line = br.readLine();
             if(checkStr(line)){
                 System.out.println("■出力結果: "+ line + "の出力頻度順は以下の通りです.");
@@ -24,7 +24,7 @@ public class WordCounter {
                     }
                 for (String s : table.getKeysByCount()) {
                      int count = table.get(s);
-                     System.out.println(count + ":" + s);
+                     System.out.println(s + ":" + count );
                 }
             }
         } catch (IOException e) {
